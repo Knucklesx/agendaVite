@@ -51,6 +51,7 @@ export default function AddUser() {
 
 	return (
 		<div className="form-wrapper">
+			<h1 className="title">Adicionar Novo Contato</h1>
 			<form onSubmit={handleSubmit(onSubmit)} className="registration-form">
 				<label className="form-label">
 					Nome:

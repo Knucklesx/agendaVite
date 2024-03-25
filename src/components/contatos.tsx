@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Contacts from "../models/contacs.models";
 import {
 	ContatosState,
@@ -11,11 +12,6 @@ import {
 import "./contatos.css";
 
 export default function Contatos() {
-	// const [myContacts, setMyContacts] = useState<Contacts[]>([]);
-	// const [filterContacts, setFilterContacts] = useState<string>("");
-	// const [filterBy, setFilterBy] = useState<string>("nome");
-	// const [activeButton, setActiveButton] = useState("nome");
-
 	const { contacts, filterContacts, filterBy, activeButton } = useSelector(
 		(state: ContatosState) => state.contatos
 	);
@@ -40,18 +36,9 @@ export default function Contatos() {
 		getContats();
 	}, [dispatch]);
 
-	// const handleFilterChange = (e: any) => {
-	// 	setFilterContacts(e.target.value);
-	// };
-
 	const handleFilterChange = (e: any) => {
 		dispatch(setFilterContacts(e.target.value));
 	};
-
-	// const handleFilterTypeChange = (type: string) => {
-	// 	setFilterBy(type);
-	// 	setActiveButton(type);
-	// };
 
 	const handleFilterTypeChange = (type: string) => {
 		dispatch(setFilterBy(type));
@@ -91,8 +78,9 @@ export default function Contatos() {
 
 	return (
 		<div>
-			<div className="Contatos"></div>
-			<h2 className="Header">Contatos</h2>
+			<div className="Contatos">
+				<h2 className="Header">Contatos</h2>
+			</div>
 			<input
 				type="text"
 				value={filterContacts}
@@ -102,7 +90,6 @@ export default function Contatos() {
 			/>
 			<div className="filter-button-div">
 				<button
-					// className="filter-user-button"
 					className={`filter-user-button ${
 						activeButton === "nome" ? "active" : ""
 					}`}
@@ -111,7 +98,6 @@ export default function Contatos() {
 					Nome
 				</button>
 				<button
-					// className="filter-user-button"
 					className={`filter-user-button ${
 						activeButton === "sobrenome" ? "active" : ""
 					}`}
@@ -140,14 +126,16 @@ export default function Contatos() {
 				{filteredContacts.length > 0 ? (
 					<>
 						{filteredContacts.map((contact: Contacts) => (
-							<li key={contact.id}>
-								<strong>Nome:</strong> {contact.nome} <br />
-								<strong>Sobrenome:</strong> {contact.sobrenome} <br />
-								<strong>Email:</strong>{" "}
-								{contact.email === "" ? "N/A" : contact.email} <br />
-								<strong>Telefone:</strong>{" "}
-								{contact.telefone === "" ? "N/A" : contact.telefone} <br />
-							</li>
+							<Link to={`/edit/${contact.id}`} className="link-edit">
+								<li key={contact.id}>
+									<strong>Nome:</strong> {contact.nome} <br />
+									<strong>Sobrenome:</strong> {contact.sobrenome} <br />
+									<strong>Email:</strong>{" "}
+									{contact.email === "" ? "N/A" : contact.email} <br />
+									<strong>Telefone:</strong>{" "}
+									{contact.telefone === "" ? "N/A" : contact.telefone} <br />
+								</li>
+							</Link>
 						))}
 						<button className="add-user-button">
 							<a className="a-inside-button" href="/adduser">

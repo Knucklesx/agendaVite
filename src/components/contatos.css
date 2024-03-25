@@ -90,3 +90,9 @@
 .Contatos li:hover {
   background-color: #182b3b;
 }
+
+.link-edit {
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 10px;
+}
