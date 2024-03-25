@@ -1,12 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Contacts from "../models/contacs.models";
+import {
+	ContatosState,
+	setActiveButton,
+	setContacts,
+	setFilterBy,
+	setFilterContacts,
+} from "../redux/contacts.redux";
 import "./contatos.css";
 
 export default function Contatos() {
-	const [myContacts, setMyContacts] = useState<Contacts[]>([]);
-	const [filterContacts, setFilterContacts] = useState<string>("");
-	const [filterBy, setFilterBy] = useState<string>("nome");
-	const [activeButton, setActiveButton] = useState("nome");
+	// const [myContacts, setMyContacts] = useState<Contacts[]>([]);
+	// const [filterContacts, setFilterContacts] = useState<string>("");
+	// const [filterBy, setFilterBy] = useState<string>("nome");
+	// const [activeButton, setActiveButton] = useState("nome");
+
+	const { contacts, filterContacts, filterBy, activeButton } = useSelector(
+		(state: ContatosState) => state.contatos
+	);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const getContats = async () => {
@@ -17,22 +30,32 @@ export default function Contatos() {
 				}
 
 				const data = await response.json();
-				console.log("DATA", data);
-				setMyContacts(data);
+				// setMyContacts(data);
+				dispatch(setContacts(data));
+				console.log("DATA", contacts);
 			} catch (err) {
 				console.error(err);
 			}
 		};
 		getContats();
-	}, []);
+	}, [dispatch]);
+
+	// const handleFilterChange = (e: any) => {
+	// 	setFilterContacts(e.target.value);
+	// };
 
 	const handleFilterChange = (e: any) => {
-		setFilterContacts(e.target.value);
+		dispatch(setFilterContacts(e.target.value));
 	};
 
+	// const handleFilterTypeChange = (type: string) => {
+	// 	setFilterBy(type);
+	// 	setActiveButton(type);
+	// };
+
 	const handleFilterTypeChange = (type: string) => {
-		setFilterBy(type);
-		setActiveButton(type);
+		dispatch(setFilterBy(type));
+		dispatch(setActiveButton(type));
 	};
 
 	const filterContactByType = (contact: Contacts) => {
@@ -58,11 +81,9 @@ export default function Contatos() {
 		}
 	};
 
-	const sortContacts = myContacts.sort((a, b) => a.nome.localeCompare(b.nome));
-
-	// const filteredContacts = myContacts.filter((contact) =>
-	// 	filterContactByType(contact)
-	// );
+	const sortContacts = [...contacts].sort((a, b) =>
+		a.nome.localeCompare(b.nome)
+	);
 
 	const filteredContacts = sortContacts.filter((contact) =>
 		filterContactByType(contact)
@@ -70,6 +91,7 @@ export default function Contatos() {
 
 	return (
 		<div>
+			<div className="Contatos"></div>
 			<h2 className="Header">Contatos</h2>
 			<input
 				type="text"
@@ -133,7 +155,7 @@ export default function Contatos() {
 							</a>
 						</button>
 					</>
-				) : myContacts.length === 0 ? (
+				) : contacts.length === 0 ? (
 					<li className="no-contacts">
 						<h3>Não há contatos cadastrados!</h3>
 						<button className="add-user-button">

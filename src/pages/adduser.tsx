@@ -89,3 +89,28 @@ export default function AddUser() {
 		</div>
 	);
 }
+
+// const dispatch = useDispatch();
+// const { lastContactId } = useSelector(
+// 	(state: ContatosState) => state.contatos
+// );
+// const contacts = useSelector(
+// 	(state: ContatosState) => state.contatos.contacts
+// );
+
+// const onSubmit: SubmitHandler<FormInput> = async (data) => {
+// 	try {
+// 		await formSchema.validate(data);
+// 		const newContactId = lastContactId + 1;
+// 		await axios.post("http://localhost:3000/contatos", {
+// 			...data,
+// 			id: newContactId,
+// 		});
+// 		dispatch(setContacts([...contacts, { ...data, id: newContactId }]));
+// 		dispatch(setFilterContacts(""));
+// 		navigate("/");
+// 	} catch (err) {
+// 		console.error(err);
+// 		throw new Error("Não foi possível adicionar o contato");
+// 	}
+// };
